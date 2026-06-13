@@ -12,21 +12,21 @@ let coleccionStickers = [];
 let historialMensajes = [];
 let usuariosConectados = {}; 
 
+// 🔥 NUEVO: Radar de cooldowns para evitar el spam
+let antiSpam = {}; 
+
 io.on('connection', (socket) => {
     socket.emit('actualizar stickers', coleccionStickers);
     socket.emit('historial', historialMensajes);
 
-    // Cuando alguien entra por primera vez o recarga
     socket.on('entrar al lobby', (perfil) => {
         usuariosConectados[socket.id] = perfil;
         io.emit('actualizar usuarios', Object.values(usuariosConectados));
     });
 
-    // 🔥 NUEVO: Cuando alguien se cambia el nombre o la foto estando adentro
     socket.on('actualizar perfil', (perfilActualizado) => {
         usuariosConectados[socket.id] = perfilActualizado;
         
-        // Actualizamos TODOS sus mensajes antiguos con su nueva cara/nombre
         historialMensajes.forEach(msg => {
             if (msg.idUsuario === perfilActualizado.id) {
                 msg.nombre = perfilActualizado.nombre;
@@ -34,22 +34,27 @@ io.on('connection', (socket) => {
             }
         });
         
-        // Disparamos la actualización a las pantallas de todos
         io.emit('historial', historialMensajes);
         io.emit('actualizar usuarios', Object.values(usuariosConectados));
     });
 
+    // 🛡️ SISTEMA DE BLOQUEO DE SPAM Y RESPUESTAS (Textos)
     socket.on('chat message', (datos) => {
+        const ahora = Date.now();
+        // Si mandó un mensaje hace menos de 5000 milisegundos (5s), lo bloqueamos
+        if (antiSpam[datos.id] && ahora - antiSpam[datos.id] < 5000) return; 
+        antiSpam[datos.id] = ahora; // Guardamos la nueva hora
+
         const nombreLimpio = datos.nombre.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         const textoLimpio = datos.texto.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         
-        // Guardamos el ID del usuario que lo envió
         const mensajeFinal = { 
             idUsuario: datos.id, 
             tipo: 'texto', 
             nombre: nombreLimpio, 
             foto: datos.foto, 
-            texto: textoLimpio 
+            texto: textoLimpio,
+            replyTo: datos.replyTo // 🔥 Se guarda si estaba respondiendo a alguien
         };
         
         historialMensajes.push(mensajeFinal);
@@ -58,7 +63,12 @@ io.on('connection', (socket) => {
         io.emit('chat message', mensajeFinal);
     });
 
+    // 🛡️ SISTEMA DE BLOQUEO DE SPAM Y RESPUESTAS (Stickers)
     socket.on('chat sticker', (datos) => {
+        const ahora = Date.now();
+        if (antiSpam[datos.id] && ahora - antiSpam[datos.id] < 5000) return;
+        antiSpam[datos.id] = ahora;
+
         const nombreLimpio = datos.nombre.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         
         const mensajeFinal = { 
@@ -66,7 +76,8 @@ io.on('connection', (socket) => {
             tipo: 'sticker', 
             nombre: nombreLimpio, 
             foto: datos.foto, 
-            url: datos.url 
+            url: datos.url,
+            replyTo: datos.replyTo 
         };
         
         historialMensajes.push(mensajeFinal);
