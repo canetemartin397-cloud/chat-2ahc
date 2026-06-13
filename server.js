@@ -4,40 +4,70 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { maxHttpBufferSize: 1e7 }); // Soporte 10MB para fotos
+const io = new Server(server, { maxHttpBufferSize: 1e7 });
 
 app.use(express.static('public'));
 
 let coleccionStickers = [];
-// 🔥 NUEVO: La memoria a corto plazo del chat (últimos 100 mensajes)
-let historialMensajes = []; 
+let historialMensajes = [];
+let usuariosConectados = {}; 
 
 io.on('connection', (socket) => {
-    console.log('🟢 Un rey ha entrado al lobby');
-
-    // Apenas entran, les mandamos los stickers y TODO el historial del chat
     socket.emit('actualizar stickers', coleccionStickers);
     socket.emit('historial', historialMensajes);
 
-    // Escuchar mensajes de texto
+    // Cuando alguien entra por primera vez o recarga
+    socket.on('entrar al lobby', (perfil) => {
+        usuariosConectados[socket.id] = perfil;
+        io.emit('actualizar usuarios', Object.values(usuariosConectados));
+    });
+
+    // 🔥 NUEVO: Cuando alguien se cambia el nombre o la foto estando adentro
+    socket.on('actualizar perfil', (perfilActualizado) => {
+        usuariosConectados[socket.id] = perfilActualizado;
+        
+        // Actualizamos TODOS sus mensajes antiguos con su nueva cara/nombre
+        historialMensajes.forEach(msg => {
+            if (msg.idUsuario === perfilActualizado.id) {
+                msg.nombre = perfilActualizado.nombre;
+                msg.foto = perfilActualizado.foto;
+            }
+        });
+        
+        // Disparamos la actualización a las pantallas de todos
+        io.emit('historial', historialMensajes);
+        io.emit('actualizar usuarios', Object.values(usuariosConectados));
+    });
+
     socket.on('chat message', (datos) => {
         const nombreLimpio = datos.nombre.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         const textoLimpio = datos.texto.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         
-        const mensajeFinal = { tipo: 'texto', nombre: nombreLimpio, foto: datos.foto, texto: textoLimpio };
+        // Guardamos el ID del usuario que lo envió
+        const mensajeFinal = { 
+            idUsuario: datos.id, 
+            tipo: 'texto', 
+            nombre: nombreLimpio, 
+            foto: datos.foto, 
+            texto: textoLimpio 
+        };
         
-        // Lo guardamos en la memoria del servidor
         historialMensajes.push(mensajeFinal);
-        if (historialMensajes.length > 100) historialMensajes.shift(); // Borra el más viejo si pasamos de 100
+        if (historialMensajes.length > 100) historialMensajes.shift();
         
         io.emit('chat message', mensajeFinal);
     });
 
-    // Escuchar stickers enviados al chat
     socket.on('chat sticker', (datos) => {
         const nombreLimpio = datos.nombre.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         
-        const mensajeFinal = { tipo: 'sticker', nombre: nombreLimpio, foto: datos.foto, url: datos.url };
+        const mensajeFinal = { 
+            idUsuario: datos.id, 
+            tipo: 'sticker', 
+            nombre: nombreLimpio, 
+            foto: datos.foto, 
+            url: datos.url 
+        };
         
         historialMensajes.push(mensajeFinal);
         if (historialMensajes.length > 100) historialMensajes.shift();
@@ -45,14 +75,16 @@ io.on('connection', (socket) => {
         io.emit('chat sticker', mensajeFinal);
     });
 
-    // Crear sticker para la colección
     socket.on('nuevo sticker', (imagenBase64) => {
         coleccionStickers.push({ url: imagenBase64 });
         io.emit('actualizar stickers', coleccionStickers);
     });
 
     socket.on('disconnect', () => {
-        console.log('🔴 Alguien se fue del lobby');
+        if (usuariosConectados[socket.id]) {
+            delete usuariosConectados[socket.id];
+            io.emit('actualizar usuarios', Object.values(usuariosConectados));
+        }
     });
 });
 
