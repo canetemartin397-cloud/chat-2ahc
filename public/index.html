@@ -3,67 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat 2AHC Salesianos</title>
+    <title>🔥 2AHC LOBBY 🗿</title>
     <style>
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1e1e1e; color: white; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(-45deg, #0f0c29, #302b63, #020024, #1b003a); background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: white; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        /* Pantalla de ingreso */
-        #pantalla-nombre { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        #caja-nombre { background-color: #252525; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 0 25px rgba(0,86,179,0.5); border: 2px solid #0056b3; width: 80%; max-width: 400px; }
-        #caja-nombre input { padding: 1rem; font-size: 1.1rem; border-radius: 5px; border: none; margin-bottom: 1rem; width: 85%; text-align: center; outline: none; background-color: #111; color: white; }
-        #caja-nombre button { padding: 1rem 1.5rem; font-size: 1.1rem; background-color: #007acc; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 95%; transition: 0.2s; }
-        #caja-nombre button:hover { background-color: #005f9e; }
+        /* LOGIN MEJORADO CON FOTO DE PERFIL */
+        #pantalla-nombre { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(10px); }
+        #caja-nombre { background: rgba(255, 255, 255, 0.05); padding: 2.5rem; border-radius: 20px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.1); box-shadow: 0 0 30px rgba(0, 255, 204, 0.4); backdrop-filter: blur(15px); width: 80%; max-width: 400px; animation: latido 2s infinite alternate; }
+        @keyframes latido { from { transform: scale(1); } to { transform: scale(1.02); } }
+        .texto-neon { background: linear-gradient(to right, #00ffcc, #ff00ff); -webkit-background-clip: text; color: transparent; font-weight: 900; letter-spacing: 1px; }
 
-        /* Diseño del Chat */
-        #chat-header { background-color: #0056b3; color: white; text-align: center; padding: 15px 10px; font-size: 1.3rem; font-weight: bold; border-bottom: 3px solid #003d82; box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 10; }
-        #chat-area { display: flex; flex-direction: column; height: 100%; width: 100%; background-color: #181818; }
+        #caja-nombre input[type="text"] { padding: 1.2rem; font-size: 1.2rem; border-radius: 12px; border: 2px solid #00ffcc; margin-bottom: 1rem; width: 85%; text-align: center; background: rgba(0,0,0,0.5); color: #00ffcc; font-weight: bold; }
         
-        #mensajes { list-style-type: none; margin: 0; padding: 1.5rem; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .mensaje-contenedor { display: flex; flex-direction: column; align-items: flex-start; }
-        .nombre-usuario { font-size: 0.85rem; color: #aaa; margin-bottom: 4px; font-weight: bold; margin-left: 5px; }
-        .mensaje-burbuja { padding: 0.8rem 1.2rem; background-color: #333; border-radius: 18px; border-top-left-radius: 2px; max-width: 80%; word-wrap: break-word; font-size: 1.05rem; line-height: 1.4; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        /* Subir Avatar */
+        .caja-avatar { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); margin-bottom: 1.5rem; text-align: left; }
+        .caja-avatar label { display: block; color: #ff00ff; font-weight: bold; margin-bottom: 8px; font-size: 0.9rem; }
+        #input-foto-perfil { color: #aaa; width: 100%; font-size: 0.8rem; }
+
+        #caja-nombre button { padding: 1rem 1.5rem; font-size: 1.2rem; background: linear-gradient(45deg, #ff00ff, #00ffcc); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 900; width: 100%; text-transform: uppercase; transition: 0.3s; }
+        #caja-nombre button:hover { transform: scale(1.05); }
+
+        /* HEADER DEL CHAT */
+        #chat-header { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); color: white; padding: 15px 20px; border-bottom: 2px solid rgba(255,255,255,0.1); z-index: 10; display: flex; justify-content: space-between; align-items: center; }
+        #btn-cambiar-perfil { background: rgba(255,255,255,0.1); border: 1px solid #00ffcc; color: #00ffcc; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        #btn-cambiar-perfil:hover { background: #00ffcc; color: black; }
+
+        /* BURBUJAS DE CHAT CON AVATARES */
+        #mensajes { list-style-type: none; margin: 0; padding: 1.5rem; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
         
-        .mensaje-propio { align-items: flex-end; }
+        .mensaje-contenedor { display: flex; align-items: flex-end; gap: 10px; animation: aparecer 0.3s ease-out forwards; max-width: 100%; }
+        @keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .avatar-chat { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #00ffcc; flex-shrink: 0; }
+        
+        .cuerpo-mensaje { display: flex; flex-direction: column; align-items: flex-start; max-width: 75%; }
+        .nombre-usuario { font-size: 0.8rem; color: #00ffcc; margin-bottom: 4px; font-weight: 900; text-transform: uppercase; }
+        .mensaje-burbuja { padding: 1rem 1.2rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; border-bottom-left-radius: 0px; word-wrap: break-word; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); color: #eaeaea; }
+        
+        /* MIS MENSAJES (Se van a la derecha) */
+        .mensaje-propio { flex-direction: row-reverse; }
+        .mensaje-propio .cuerpo-mensaje { align-items: flex-end; }
         .mensaje-propio .nombre-usuario { display: none; }
-        .mensaje-propio .mensaje-burbuja { background-color: #0056b3; border-top-left-radius: 18px; border-top-right-radius: 2px; }
+        .mensaje-propio .avatar-chat { border-color: #ff00ff; }
+        .mensaje-propio .mensaje-burbuja { background: linear-gradient(135deg, #6a11cb, #2575fc); border: none; border-bottom-left-radius: 20px; border-bottom-right-radius: 0px; color: white; }
 
-        .sticker-en-chat { max-width: 180px; max-height: 180px; border-radius: 8px; display: block; background-color: transparent; }
+        .sticker-en-chat { max-width: 180px; max-height: 180px; border-radius: 12px; background-color: transparent; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
         
-        /* Panel de Stickers */
-        #panel-stickers { display: none; background-color: #252525; border-top: 1px solid #444; padding: 15px; flex-direction: column; gap: 10px; }
-        #lista-stickers { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; min-height: 70px; }
-        .sticker-btn { width: 70px; height: 70px; cursor: pointer; border-radius: 5px; transition: transform 0.2s; object-fit: contain; }
-        .sticker-btn:hover { transform: scale(1.1); background-color: #444; }
+        /* RESTO DE CONTROLES */
+        #panel-stickers { display: none; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); border-top: 1px solid #ff00ff; padding: 15px; flex-direction: column; gap: 10px; z-index: 20; }
+        #lista-stickers { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; min-height: 80px; }
+        .sticker-btn { width: 80px; height: 80px; cursor: pointer; border-radius: 10px; transition: 0.2s; object-fit: contain; background: rgba(255,255,255,0.05); padding: 5px; }
+        .sticker-btn:hover { transform: scale(1.1); background: rgba(0,255,204,0.2); }
         
-        /* 🔥 NUEVO: Diseño del selector de archivos */
-        #creador-stickers { display: flex; gap: 10px; align-items: center; background-color: #111; padding: 10px; border-radius: 5px; }
-        #input-archivo-sticker { color: white; flex-grow: 1; }
-        #btn-crear-sticker { background-color: #28a745; border-radius: 5px; padding: 0.6rem 1rem; }
+        #creador-stickers { display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+        #input-archivo-sticker { color: #00ffcc; flex-grow: 1; font-size: 0.9rem; }
+        #btn-crear-sticker { background: linear-gradient(45deg, #00c6ff, #0072ff); border-radius: 8px; padding: 0.6rem; border: none; font-weight: bold; color: white; cursor: pointer; }
         
-        /* Barra de abajo */
-        #formulario { display: flex; padding: 1rem 1.5rem; background-color: #222; align-items: center; gap: 10px; border-top: 1px solid #333; }
-        #input-mensaje { flex-grow: 1; padding: 1rem; border: none; border-radius: 25px; outline: none; background-color: #444; color: white; font-size: 1.05rem; padding-left: 20px; }
-        button { padding: 0.8rem 1.5rem; background-color: #007acc; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1rem; }
-        button:hover { background-color: #005f9e; }
-        #btn-abrir-stickers { background-color: transparent; font-size: 2rem; padding: 0; cursor: pointer; }
-        #btn-abrir-stickers:hover { transform: scale(1.1); }
+        #formulario { display: flex; padding: 1rem 1.5rem; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); align-items: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
+        #input-mensaje { flex-grow: 1; padding: 1rem 1.5rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; outline: none; background: rgba(255,255,255,0.05); color: white; font-size: 1.1rem; transition: 0.3s; }
+        #input-mensaje:focus { border-color: #ff00ff; }
+        #btn-enviar { padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #ff00ff, #00ffcc); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: 900; }
+        #btn-abrir-stickers { background: transparent; font-size: 2.2rem; padding: 0; border: none; cursor: pointer; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: #ff00ff; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <div id="pantalla-nombre">
         <div id="caja-nombre">
-            <h2 style="margin-top: 0;">Bienvenido a 2AHC</h2>
-            <p style="color: #ccc; margin-bottom: 1.5rem;">Ingresa tu nombre o apodo para entrar a la sala</p>
-            <input type="text" id="input-nombre" placeholder="Tu nombre..." autocomplete="off">
-            <br>
-            <button id="btn-entrar">Entrar al Chat</button>
+            <h2 class="texto-neon" style="margin-top: 0; font-size: 2rem;">⚡ ZONA 2AHC ⚡</h2>
+            <p style="color: #ccc; margin-bottom: 1.5rem; font-weight: 500;">Identifícate mi rey 👑</p>
+            
+            <input type="text" id="input-nombre" placeholder="Nickname..." autocomplete="off">
+            
+            <div class="caja-avatar">
+                <label>Sube tu Foto de Perfil (Skin):</label>
+                <input type="file" id="input-foto-perfil" accept="image/*">
+            </div>
+
+            <button id="btn-entrar">Guardar y Entrar 🚀</button>
         </div>
     </div>
 
     <div id="chat-area">
         <div id="chat-header">
-            🏫 Chat de 2AHC Salesianos Talca
+            <div>
+                <div class="texto-neon" style="font-size: 1.3rem;">🔥 2AHC TIER SSS 🔥</div>
+            </div>
+            <button id="btn-cambiar-perfil">Editar Skin ✏️</button>
         </div>
 
         <ul id="mensajes"></ul>
@@ -72,26 +103,71 @@
             <div id="lista-stickers"></div>
             <div id="creador-stickers">
                 <input type="file" id="input-archivo-sticker" accept="image/*">
-                <button id="btn-crear-sticker">Subir Sticker</button>
+                <button id="btn-crear-sticker">Subir Joyita 💎</button>
             </div>
         </div>
 
         <form id="formulario">
-            <button type="button" id="btn-abrir-stickers">😀</button>
-            <input id="input-mensaje" autocomplete="off" placeholder="Escribe tu mensaje..." />
-            <button type="submit">Enviar</button>
+            <button type="button" id="btn-abrir-stickers">👽</button>
+            <input id="input-mensaje" autocomplete="off" placeholder="Tira un fact bro..." />
+            <button type="submit" id="btn-enviar">Mandar 🔥</button>
         </form>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        let miNombre = "";
+        
+        // RECUPERAR DATOS GUARDADOS (El navegador ya no tiene amnesia)
+        let miNombre = localStorage.getItem('chat2ahc_nombre') || "";
+        let miFoto = localStorage.getItem('chat2ahc_foto') || "https://cdn-icons-png.flaticon.com/512/149/149071.png"; // Avatar default de anónimo
 
         const pantallaNombre = document.getElementById('pantalla-nombre');
         const inputNombre = document.getElementById('input-nombre');
+        const inputFotoPerfil = document.getElementById('input-foto-perfil');
         const btnEntrar = document.getElementById('btn-entrar');
+        const btnCambiarPerfil = document.getElementById('btn-cambiar-perfil');
 
+        // Si ya hay un nombre guardado, entra directo sin pedir login
+        if (miNombre !== "") {
+            pantallaNombre.style.display = 'none';
+        } else {
+            // Si no hay, pre-carga el nombre vacío y la foto por defecto
+            inputNombre.value = miNombre;
+        }
+
+        // Función para procesar el login
+        btnEntrar.addEventListener('click', () => {
+            const nombreIngresado = inputNombre.value.trim();
+            if (nombreIngresado === "") { alert("¡Pon un nombre bro!"); return; }
+
+            miNombre = nombreIngresado;
+            localStorage.setItem('chat2ahc_nombre', miNombre); // Guarda el nombre
+
+            const archivoFoto = inputFotoPerfil.files[0];
+            if (archivoFoto) {
+                // Convertimos la foto a código para guardarla
+                const lector = new FileReader();
+                lector.onload = function(evento) {
+                    miFoto = evento.target.result;
+                    localStorage.setItem('chat2ahc_foto', miFoto); // Guarda la foto
+                    pantallaNombre.style.display = 'none';
+                };
+                lector.readAsDataURL(archivoFoto);
+            } else {
+                pantallaNombre.style.display = 'none'; // Entra con la foto que ya tenía (o la default)
+            }
+        });
+
+        // Botón para volver al menú de login si quieren cambiar algo
+        btnCambiarPerfil.addEventListener('click', () => {
+            inputNombre.value = miNombre;
+            pantallaNombre.style.display = 'flex';
+        });
+
+        // ====================================================
+        // LÓGICA DEL CHAT (DIBUJAR MENSAJES Y STICKERS)
+        // ====================================================
         const form = document.getElementById('formulario');
         const input = document.getElementById('input-mensaje');
         const mensajes = document.getElementById('mensajes');
@@ -99,104 +175,80 @@
         const panelStickers = document.getElementById('panel-stickers');
         const btnAbrirStickers = document.getElementById('btn-abrir-stickers');
         const listaStickers = document.getElementById('lista-stickers');
-        
-        // 🔥 NUEVOS ELEMENTOS
         const inputArchivoSticker = document.getElementById('input-archivo-sticker');
         const btnCrearSticker = document.getElementById('btn-crear-sticker');
 
-        // Entrar al chat
-        function entrarChat() {
-            const nombreIngresado = inputNombre.value.trim();
-            if (nombreIngresado !== "") {
-                miNombre = nombreIngresado;
-                pantallaNombre.style.display = 'none';
-            }
-        }
-        btnEntrar.addEventListener('click', entrarChat);
-        inputNombre.addEventListener('keypress', (e) => { if (e.key === 'Enter') entrarChat(); });
-
-        // Stickers: Menú
         btnAbrirStickers.addEventListener('click', () => {
             panelStickers.style.display = (panelStickers.style.display === 'flex') ? 'none' : 'flex';
         });
 
         socket.on('actualizar stickers', (coleccion) => {
             listaStickers.innerHTML = '';
-            if (coleccion.length === 0) {
-                listaStickers.innerHTML = '<span style="color:#aaa; font-size:0.9rem; margin-top:20px;">Aún no hay stickers. ¡Sube el primero!</span>';
-            }
-            
             coleccion.forEach(sticker => {
                 const img = document.createElement('img');
                 img.src = sticker.url;
                 img.className = 'sticker-btn';
                 img.addEventListener('click', () => {
-                    socket.emit('chat sticker', { nombre: miNombre, url: sticker.url });
+                    // Ahora mandamos también miFoto
+                    socket.emit('chat sticker', { nombre: miNombre, foto: miFoto, url: sticker.url });
                     panelStickers.style.display = 'none';
                 });
                 listaStickers.appendChild(img);
             });
         });
 
-        // 🔥 NUEVO LOGICA: Leer el archivo y subirlo
         btnCrearSticker.addEventListener('click', () => {
             const archivo = inputArchivoSticker.files[0];
-            
             if (archivo) {
-                // Validación para evitar que suban archivos gigantes y colapsen el servidor
-                if (archivo.size > 5 * 1024 * 1024) { // 5 Megabytes máximo
-                    alert("¡Esa imagen es muy pesada! Elige una de menos de 5MB.");
-                    return;
-                }
-
-                // El FileReader es quien hace la magia de convertir la imagen en código
                 const lector = new FileReader();
                 lector.onload = function(evento) {
-                    const imagenBase64 = evento.target.result;
-                    socket.emit('nuevo sticker', imagenBase64); // Se envía al servidor
-                    inputArchivoSticker.value = ''; // Limpiamos el botón
+                    socket.emit('nuevo sticker', evento.target.result);
+                    inputArchivoSticker.value = ''; 
                 };
-                // Inicia la lectura del archivo
                 lector.readAsDataURL(archivo);
-            } else {
-                alert("Primero debes seleccionar una imagen.");
             }
         });
 
-        // Chat normal
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             if (input.value.trim() && miNombre !== "") {
-                socket.emit('chat message', { nombre: miNombre, texto: input.value });
+                // Ahora mandamos miFoto junto con el texto
+                socket.emit('chat message', { nombre: miNombre, foto: miFoto, texto: input.value });
                 input.value = '';
             }
         });
 
-        socket.on('chat message', (datos) => {
+        // FUNCIÓN MAESTRA: Dibuja un mensaje o sticker en la pantalla
+        function dibujarMensaje(datos) {
             const item = document.createElement('li');
             item.className = 'mensaje-contenedor';
             if (datos.nombre === miNombre) item.classList.add('mensaje-propio');
 
+            let contenido = datos.tipo === 'texto' 
+                ? `<div class="mensaje-burbuja">${datos.texto}</div>`
+                : `<img src="${datos.url}" class="sticker-en-chat">`;
+
             item.innerHTML = `
-                <span class="nombre-usuario">${datos.nombre}</span>
-                <div class="mensaje-burbuja">${datos.texto}</div>
+                <img src="${datos.foto}" class="avatar-chat">
+                <div class="cuerpo-mensaje">
+                    <span class="nombre-usuario">${datos.nombre}</span>
+                    ${contenido}
+                </div>
             `;
             mensajes.appendChild(item);
             mensajes.scrollTop = mensajes.scrollHeight;
+        }
+
+        // 🔥 NUEVO: Recibe el historial de golpe cuando entras
+        socket.on('historial', (historial) => {
+            mensajes.innerHTML = ''; // Limpia por si acaso
+            historial.forEach(msj => dibujarMensaje(msj));
         });
 
-        socket.on('chat sticker', (datos) => {
-            const item = document.createElement('li');
-            item.className = 'mensaje-contenedor';
-            if (datos.nombre === miNombre) item.classList.add('mensaje-propio');
+        // Recibir mensajes individuales nuevos en tiempo real
+        socket.on('chat message', (datos) => dibujarMensaje(datos));
+        socket.on('chat sticker', (datos) => dibujarMensaje(datos));
 
-            item.innerHTML = `
-                <span class="nombre-usuario">${datos.nombre}</span>
-                <img src="${datos.url}" class="sticker-en-chat">
-            `;
-            mensajes.appendChild(item);
-            mensajes.scrollTop = mensajes.scrollHeight;
-        });
     </script>
 </body>
 </html>
