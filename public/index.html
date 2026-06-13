@@ -3,62 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sala del Curso - 2AHC</title>
+    <title>Chat 2AHC Salesianos</title>
     <style>
-        /* Diseño base modo oscuro */
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1e1e1e; color: white; display: flex; height: 100vh; overflow: hidden; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1e1e1e; color: white; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        /* Área de juegos izquierda */
-        #juego-area { flex: 3; display: flex; align-items: center; justify-content: center; background-color: #2d2d2d; border-right: 2px solid #444; }
-        
-        /* Área de chat derecha */
-        #chat-area { flex: 1; display: flex; flex-direction: column; background-color: #181818; position: relative; }
-        
-        /* Cabecera oficial del curso */
-        #chat-header {
-            background-color: #0056b3; 
-            color: white;
-            text-align: center;
-            padding: 15px 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-bottom: 3px solid #003d82;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            z-index: 10;
-            letter-spacing: 0.5px;
-        }
+        /* Pantalla de ingreso */
+        #pantalla-nombre { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        #caja-nombre { background-color: #252525; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 0 25px rgba(0,86,179,0.5); border: 2px solid #0056b3; width: 80%; max-width: 400px; }
+        #caja-nombre input { padding: 1rem; font-size: 1.1rem; border-radius: 5px; border: none; margin-bottom: 1rem; width: 85%; text-align: center; outline: none; background-color: #111; color: white; }
+        #caja-nombre button { padding: 1rem 1.5rem; font-size: 1.1rem; background-color: #007acc; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 95%; transition: 0.2s; }
+        #caja-nombre button:hover { background-color: #005f9e; }
 
-        /* Lista de mensajes */
-        #mensajes { list-style-type: none; margin: 0; padding: 1rem; flex-grow: 1; overflow-y: auto; }
-        #mensajes li { padding: 0.5rem; margin-bottom: 0.5rem; background-color: #333; border-radius: 5px; word-wrap: break-word; }
+        /* Diseño del Chat */
+        #chat-header { background-color: #0056b3; color: white; text-align: center; padding: 15px 10px; font-size: 1.3rem; font-weight: bold; border-bottom: 3px solid #003d82; box-shadow: 0 4px 6px rgba(0,0,0,0.3); z-index: 10; }
+        #chat-area { display: flex; flex-direction: column; height: 100%; width: 100%; background-color: #181818; }
         
-        /* Imágenes de stickers dentro de la conversación */
-        .sticker-en-chat { max-width: 120px; max-height: 120px; border-radius: 8px; display: block; margin-top: 5px; }
+        #mensajes { list-style-type: none; margin: 0; padding: 1.5rem; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        .mensaje-contenedor { display: flex; flex-direction: column; align-items: flex-start; }
+        .nombre-usuario { font-size: 0.85rem; color: #aaa; margin-bottom: 4px; font-weight: bold; margin-left: 5px; }
+        .mensaje-burbuja { padding: 0.8rem 1.2rem; background-color: #333; border-radius: 18px; border-top-left-radius: 2px; max-width: 80%; word-wrap: break-word; font-size: 1.05rem; line-height: 1.4; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         
-        /* Panel desplegable de stickers */
-        #panel-stickers { display: none; background-color: #252525; border-top: 1px solid #444; padding: 10px; flex-direction: column; gap: 10px; }
-        #lista-stickers { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
-        .sticker-btn { width: 50px; height: 50px; cursor: pointer; border-radius: 5px; transition: transform 0.2s; object-fit: contain; }
+        .mensaje-propio { align-items: flex-end; }
+        .mensaje-propio .nombre-usuario { display: none; }
+        .mensaje-propio .mensaje-burbuja { background-color: #0056b3; border-top-left-radius: 18px; border-top-right-radius: 2px; }
+
+        .sticker-en-chat { max-width: 180px; max-height: 180px; border-radius: 8px; display: block; background-color: transparent; }
+        
+        /* Panel de Stickers */
+        #panel-stickers { display: none; background-color: #252525; border-top: 1px solid #444; padding: 15px; flex-direction: column; gap: 10px; }
+        #lista-stickers { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; min-height: 70px; }
+        .sticker-btn { width: 70px; height: 70px; cursor: pointer; border-radius: 5px; transition: transform 0.2s; object-fit: contain; }
         .sticker-btn:hover { transform: scale(1.1); background-color: #444; }
         
-        /* Creador de stickers (Input de URLs) */
-        #creador-stickers { display: flex; gap: 5px; }
-        #creador-stickers input { flex-grow: 1; padding: 0.4rem; border: none; border-radius: 3px; background-color: #111; color: white; outline: none; }
+        /* 🔥 NUEVO: Diseño del selector de archivos */
+        #creador-stickers { display: flex; gap: 10px; align-items: center; background-color: #111; padding: 10px; border-radius: 5px; }
+        #input-archivo-sticker { color: white; flex-grow: 1; }
+        #btn-crear-sticker { background-color: #28a745; border-radius: 5px; padding: 0.6rem 1rem; }
         
-        /* Barra de envío inferior */
-        #formulario { display: flex; padding: 1rem; background-color: #222; align-items: center; gap: 5px; }
-        #input-mensaje { flex-grow: 1; padding: 0.5rem; border: none; border-radius: 3px; outline: none; background-color: #444; color: white; }
-        
-        /* Botones del sistema */
-        button { padding: 0.5rem 1rem; background-color: #007acc; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; }
+        /* Barra de abajo */
+        #formulario { display: flex; padding: 1rem 1.5rem; background-color: #222; align-items: center; gap: 10px; border-top: 1px solid #333; }
+        #input-mensaje { flex-grow: 1; padding: 1rem; border: none; border-radius: 25px; outline: none; background-color: #444; color: white; font-size: 1.05rem; padding-left: 20px; }
+        button { padding: 0.8rem 1.5rem; background-color: #007acc; color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1rem; }
         button:hover { background-color: #005f9e; }
-        #btn-abrir-stickers { background-color: #555; font-size: 1.2rem; padding: 0.2rem 0.6rem; }
+        #btn-abrir-stickers { background-color: transparent; font-size: 2rem; padding: 0; cursor: pointer; }
+        #btn-abrir-stickers:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
 
-    <div id="juego-area">
-        <h2>🎮 Zona de Juegos (Próximamente)</h2>
+    <div id="pantalla-nombre">
+        <div id="caja-nombre">
+            <h2 style="margin-top: 0;">Bienvenido a 2AHC</h2>
+            <p style="color: #ccc; margin-bottom: 1.5rem;">Ingresa tu nombre o apodo para entrar a la sala</p>
+            <input type="text" id="input-nombre" placeholder="Tu nombre..." autocomplete="off">
+            <br>
+            <button id="btn-entrar">Entrar al Chat</button>
+        </div>
     </div>
 
     <div id="chat-area">
@@ -66,19 +66,19 @@
             🏫 Chat de 2AHC Salesianos Talca
         </div>
 
-        <ul id="get-mensajes" id="mensajes"></ul>
+        <ul id="mensajes"></ul>
         
         <div id="panel-stickers">
             <div id="lista-stickers"></div>
             <div id="creador-stickers">
-                <input id="input-url-sticker" placeholder="Pega URL de imagen o GIF..." autocomplete="off">
-                <button id="btn-crear-sticker" style="background-color: #28a745;">Crear</button>
+                <input type="file" id="input-archivo-sticker" accept="image/*">
+                <button id="btn-crear-sticker">Subir Sticker</button>
             </div>
         </div>
 
         <form id="formulario">
             <button type="button" id="btn-abrir-stickers">😀</button>
-            <input id="input-mensaje" autocomplete="off" placeholder="Escribe libremente aquí..." />
+            <input id="input-mensaje" autocomplete="off" placeholder="Escribe tu mensaje..." />
             <button type="submit">Enviar</button>
         </form>
     </div>
@@ -86,67 +86,114 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        
+        let miNombre = "";
+
+        const pantallaNombre = document.getElementById('pantalla-nombre');
+        const inputNombre = document.getElementById('input-nombre');
+        const btnEntrar = document.getElementById('btn-entrar');
+
         const form = document.getElementById('formulario');
         const input = document.getElementById('input-mensaje');
-        const mensajes = document.getElementById('mensajes') || document.getElementById('get-mensajes'); // Soporte para ID
+        const mensajes = document.getElementById('mensajes');
         
         const panelStickers = document.getElementById('panel-stickers');
         const btnAbrirStickers = document.getElementById('btn-abrir-stickers');
         const listaStickers = document.getElementById('lista-stickers');
-        const inputUrlSticker = document.getElementById('input-url-sticker');
+        
+        // 🔥 NUEVOS ELEMENTOS
+        const inputArchivoSticker = document.getElementById('input-archivo-sticker');
         const btnCrearSticker = document.getElementById('btn-crear-sticker');
 
-        // Mostrar / Ocultar menú de stickers
+        // Entrar al chat
+        function entrarChat() {
+            const nombreIngresado = inputNombre.value.trim();
+            if (nombreIngresado !== "") {
+                miNombre = nombreIngresado;
+                pantallaNombre.style.display = 'none';
+            }
+        }
+        btnEntrar.addEventListener('click', entrarChat);
+        inputNombre.addEventListener('keypress', (e) => { if (e.key === 'Enter') entrarChat(); });
+
+        // Stickers: Menú
         btnAbrirStickers.addEventListener('click', () => {
             panelStickers.style.display = (panelStickers.style.display === 'flex') ? 'none' : 'flex';
         });
 
-        // Cargar stickers en pantalla compartida
         socket.on('actualizar stickers', (coleccion) => {
             listaStickers.innerHTML = '';
+            if (coleccion.length === 0) {
+                listaStickers.innerHTML = '<span style="color:#aaa; font-size:0.9rem; margin-top:20px;">Aún no hay stickers. ¡Sube el primero!</span>';
+            }
+            
             coleccion.forEach(sticker => {
                 const img = document.createElement('img');
                 img.src = sticker.url;
                 img.className = 'sticker-btn';
                 img.addEventListener('click', () => {
-                    socket.emit('chat sticker', sticker.url);
+                    socket.emit('chat sticker', { nombre: miNombre, url: sticker.url });
                     panelStickers.style.display = 'none';
                 });
                 listaStickers.appendChild(img);
             });
         });
 
-        // Crear y compartir un nuevo sticker
+        // 🔥 NUEVO LOGICA: Leer el archivo y subirlo
         btnCrearSticker.addEventListener('click', () => {
-            const url = inputUrlSticker.value.trim();
-            if (url) {
-                socket.emit('nuevo sticker', url);
-                inputUrlSticker.value = '';
+            const archivo = inputArchivoSticker.files[0];
+            
+            if (archivo) {
+                // Validación para evitar que suban archivos gigantes y colapsen el servidor
+                if (archivo.size > 5 * 1024 * 1024) { // 5 Megabytes máximo
+                    alert("¡Esa imagen es muy pesada! Elige una de menos de 5MB.");
+                    return;
+                }
+
+                // El FileReader es quien hace la magia de convertir la imagen en código
+                const lector = new FileReader();
+                lector.onload = function(evento) {
+                    const imagenBase64 = evento.target.result;
+                    socket.emit('nuevo sticker', imagenBase64); // Se envía al servidor
+                    inputArchivoSticker.value = ''; // Limpiamos el botón
+                };
+                // Inicia la lectura del archivo
+                lector.readAsDataURL(archivo);
+            } else {
+                alert("Primero debes seleccionar una imagen.");
             }
         });
 
-        // Enviar un mensaje de texto
+        // Chat normal
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            if (input.value.trim()) {
-                socket.emit('chat message', input.value);
+            if (input.value.trim() && miNombre !== "") {
+                socket.emit('chat message', { nombre: miNombre, texto: input.value });
                 input.value = '';
             }
         });
 
-        // Mostrar mensaje de texto recibido
-        socket.on('chat message', (msg) => {
+        socket.on('chat message', (datos) => {
             const item = document.createElement('li');
-            item.innerHTML = msg;
+            item.className = 'mensaje-contenedor';
+            if (datos.nombre === miNombre) item.classList.add('mensaje-propio');
+
+            item.innerHTML = `
+                <span class="nombre-usuario">${datos.nombre}</span>
+                <div class="mensaje-burbuja">${datos.texto}</div>
+            `;
             mensajes.appendChild(item);
             mensajes.scrollTop = mensajes.scrollHeight;
         });
 
-        // Mostrar sticker recibido en la conversación
-        socket.on('chat sticker', (urlSticker) => {
+        socket.on('chat sticker', (datos) => {
             const item = document.createElement('li');
-            item.innerHTML = `<img src="${urlSticker}" class="sticker-en-chat">`;
+            item.className = 'mensaje-contenedor';
+            if (datos.nombre === miNombre) item.classList.add('mensaje-propio');
+
+            item.innerHTML = `
+                <span class="nombre-usuario">${datos.nombre}</span>
+                <img src="${datos.url}" class="sticker-en-chat">
+            `;
             mensajes.appendChild(item);
             mensajes.scrollTop = mensajes.scrollHeight;
         });
