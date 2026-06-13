@@ -4,46 +4,59 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-
-// 🔥 CAMBIO AQUÍ: Aumentamos el límite de tamaño para que soporte subir imágenes
-const io = new Server(server, { maxHttpBufferSize: 1e7 }); // 10 Megabytes
+const io = new Server(server, { maxHttpBufferSize: 1e7 }); // Soporte 10MB para fotos
 
 app.use(express.static('public'));
 
-// Memoria temporal de stickers (empezará vacía para que suban los suyos)
 let coleccionStickers = [];
+// 🔥 NUEVO: La memoria a corto plazo del chat (últimos 100 mensajes)
+let historialMensajes = []; 
 
 io.on('connection', (socket) => {
-    console.log('🟢 Un amigo se conectó');
+    console.log('🟢 Un rey ha entrado al lobby');
 
+    // Apenas entran, les mandamos los stickers y TODO el historial del chat
     socket.emit('actualizar stickers', coleccionStickers);
+    socket.emit('historial', historialMensajes);
 
     // Escuchar mensajes de texto
     socket.on('chat message', (datos) => {
         const nombreLimpio = datos.nombre.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         const textoLimpio = datos.texto.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         
-        io.emit('chat message', { nombre: nombreLimpio, texto: textoLimpio });
+        const mensajeFinal = { tipo: 'texto', nombre: nombreLimpio, foto: datos.foto, texto: textoLimpio };
+        
+        // Lo guardamos en la memoria del servidor
+        historialMensajes.push(mensajeFinal);
+        if (historialMensajes.length > 100) historialMensajes.shift(); // Borra el más viejo si pasamos de 100
+        
+        io.emit('chat message', mensajeFinal);
     });
 
-    // Escuchar cuando se envía un sticker al chat
+    // Escuchar stickers enviados al chat
     socket.on('chat sticker', (datos) => {
         const nombreLimpio = datos.nombre.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        io.emit('chat sticker', { nombre: nombreLimpio, url: datos.url });
+        
+        const mensajeFinal = { tipo: 'sticker', nombre: nombreLimpio, foto: datos.foto, url: datos.url };
+        
+        historialMensajes.push(mensajeFinal);
+        if (historialMensajes.length > 100) historialMensajes.shift();
+
+        io.emit('chat sticker', mensajeFinal);
     });
 
-    // 🔥 NUEVO: Recibe la imagen convertida en código y la guarda
+    // Crear sticker para la colección
     socket.on('nuevo sticker', (imagenBase64) => {
         coleccionStickers.push({ url: imagenBase64 });
         io.emit('actualizar stickers', coleccionStickers);
     });
 
     socket.on('disconnect', () => {
-        console.log('🔴 Alguien se desconectó');
+        console.log('🔴 Alguien se fue del lobby');
     });
 });
 
 const PUERTO = process.env.PORT || 3000;
 server.listen(PUERTO, () => {
-    console.log('🚀 Servidor de 2AHC corriendo en el puerto ' + PUERTO);
+    console.log('🚀 Servidor 2AHC activo en puerto ' + PUERTO);
 });
