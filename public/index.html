@@ -23,6 +23,11 @@
         /* HEADER DEL CHAT */
         #chat-header { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); color: white; padding: 15px 20px; border-bottom: 2px solid rgba(255,255,255,0.1); z-index: 10; display: flex; justify-content: space-between; align-items: center; }
         .caja-botones-header { display: flex; gap: 10px; }
+        
+        /* 🔥 NUEVO: Botón de sonido adaptado */
+        #btn-sonido { background: rgba(255,255,255,0.1); border: 1px solid #ff00ff; color: white; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; transition: 0.2s; }
+        #btn-sonido:hover { background: #ff00ff; }
+        
         #btn-cambiar-perfil, #btn-ver-usuarios { background: rgba(255,255,255,0.1); border: 1px solid #00ffcc; color: #00ffcc; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; display: flex; align-items: center; gap: 5px; }
         #btn-cambiar-perfil:hover, #btn-ver-usuarios:hover { background: #00ffcc; color: black; }
 
@@ -48,13 +53,11 @@
         .mensaje-propio .avatar-chat { border-color: #ff00ff; }
         .mensaje-propio .mensaje-burbuja { background: linear-gradient(135deg, #6a11cb, #2575fc); border: none; border-bottom-right-radius: 0px; color: white; }
 
-        /* 🔥 NUEVO: Estilos para la caja de Respuesta */
+        /* CAJA DE RESPUESTAS */
         .btn-responder { background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 0.75rem; margin-top: 5px; font-weight: bold; text-transform: uppercase; transition: 0.2s; }
         .btn-responder:hover { color: #00ffcc; }
-        
         .burbuja-citada { background: rgba(0,0,0,0.3); border-left: 3px solid #00ffcc; padding: 5px 10px; border-radius: 5px; margin-bottom: 8px; font-size: 0.85rem; color: #ccc; }
         .mensaje-propio .burbuja-citada { background: rgba(255,255,255,0.2); border-left: 3px solid #ff00ff; color: white; }
-        
         #caja-respuesta-ui { display: none; background: rgba(0,0,0,0.8); border-top: 1px solid #ff00ff; padding: 10px 15px; justify-content: space-between; align-items: center; font-size: 0.9rem; }
         #caja-respuesta-ui button { background: rgba(255,0,0,0.2); color: #ff4444; border: 1px solid #ff4444; border-radius: 5px; padding: 2px 8px; cursor: pointer; font-weight: bold; }
         
@@ -63,7 +66,6 @@
         #lista-stickers { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; min-height: 80px; }
         .sticker-btn { width: 80px; height: 80px; cursor: pointer; border-radius: 10px; transition: 0.2s; object-fit: contain; background: rgba(255,255,255,0.05); padding: 5px; }
         .sticker-btn:hover { transform: scale(1.1); background: rgba(0,255,204,0.2); }
-        
         #creador-stickers { display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
         #input-archivo-sticker { color: #00ffcc; flex-grow: 1; font-size: 0.9rem; }
         #btn-crear-sticker { background: linear-gradient(45deg, #00c6ff, #0072ff); border-radius: 8px; padding: 0.6rem; border: none; font-weight: bold; color: white; cursor: pointer; }
@@ -98,6 +100,7 @@
         <div id="chat-header">
             <div><div class="texto-neon" style="font-size: 1.3rem;">🔥 2AHC TIER SSS 🔥</div></div>
             <div class="caja-botones-header">
+                <button id="btn-sonido" title="Silenciar Notificaciones">🔊</button>
                 <button id="btn-ver-usuarios">🟢 <span id="contador-usuarios">0</span></button>
                 <button id="btn-cambiar-perfil">Skin ✏️</button>
             </div>
@@ -150,6 +153,44 @@
         const btnEntrar = document.getElementById('btn-entrar');
         const btnCambiarPerfil = document.getElementById('btn-cambiar-perfil');
 
+        // ====================================================
+        // 🔥 SISTEMA DE AUDIO SINTÉTICO (Sin descargar nada)
+        // ====================================================
+        let sonidoActivado = true;
+        const btnSonido = document.getElementById('btn-sonido');
+        
+        btnSonido.addEventListener('click', () => {
+            sonidoActivado = !sonidoActivado;
+            btnSonido.innerText = sonidoActivado ? '🔊' : '🔇';
+        });
+
+        // Esta función crea un sonido "Pop" de burbuja matemáticamente
+        function reproducirSonidoNotificacion() {
+            if (!sonidoActivado) return;
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                // Configuramos la onda para que suene como una burbuja/pop
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.1);
+                
+                gain.gain.setValueAtTime(0.5, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.1);
+            } catch(error) {
+                console.log("Tu navegador bloqueó el audio sintético.");
+            }
+        }
+
         function comprimirImagen(archivo, callback) {
             const lector = new FileReader();
             lector.onload = function(e) {
@@ -191,13 +232,15 @@
                     pantallaNombre.style.display = 'none'; notificarAlServidor();
                 });
             } else { pantallaNombre.style.display = 'none'; notificarAlServidor(); }
+            
+            // Truco: Al hacer clic, desbloqueamos el audio del navegador
+            reproducirSonidoNotificacion(); 
         });
 
         btnCambiarPerfil.addEventListener('click', () => {
             inputNombre.value = miNombre; pantallaNombre.style.display = 'flex';
         });
 
-        // RADAR DE USUARIOS
         const btnVerUsuarios = document.getElementById('btn-ver-usuarios');
         const panelUsuarios = document.getElementById('panel-usuarios');
         const listaUsuariosOnline = document.getElementById('lista-usuarios-online');
@@ -218,39 +261,28 @@
             });
         });
 
-        // ====================================================
-        // 🔥 LÓGICA COOLDOWN Y RESPUESTAS
-        // ====================================================
         let enCooldown = false;
         const btnEnviar = document.getElementById('btn-enviar');
 
-        // Esta función desactiva el chat por 5 segundos
         function activarCooldown() {
             enCooldown = true;
             let segs = 5;
             const textoOriginal = btnEnviar.innerHTML;
-            
             btnEnviar.style.background = "rgba(255,255,255,0.2)";
             btnEnviar.style.boxShadow = "none";
             btnEnviar.style.cursor = "not-allowed";
             btnEnviar.innerHTML = `⏳ ${segs}s`;
-            
             const intervalo = setInterval(() => {
                 segs--;
-                if(segs > 0) {
-                    btnEnviar.innerHTML = `⏳ ${segs}s`;
-                } else {
-                    clearInterval(intervalo);
-                    enCooldown = false;
-                    btnEnviar.style.background = ""; 
-                    btnEnviar.style.boxShadow = "";
-                    btnEnviar.style.cursor = "pointer";
-                    btnEnviar.innerHTML = textoOriginal;
+                if(segs > 0) { btnEnviar.innerHTML = `⏳ ${segs}s`; } 
+                else {
+                    clearInterval(intervalo); enCooldown = false;
+                    btnEnviar.style.background = ""; btnEnviar.style.boxShadow = "";
+                    btnEnviar.style.cursor = "pointer"; btnEnviar.innerHTML = textoOriginal;
                 }
             }, 1000);
         }
 
-        // Sistema de Respuestas
         let mensajeAResponder = null;
         const cajaRespuestaUI = document.getElementById('caja-respuesta-ui');
         const respuestaUiNombre = document.getElementById('respuesta-ui-nombre');
@@ -269,9 +301,6 @@
             cajaRespuestaUI.style.display = 'none';
         }
 
-        // ====================================================
-        // EVENTOS DEL CHAT Y STICKERS
-        // ====================================================
         const form = document.getElementById('formulario');
         const input = document.getElementById('input-mensaje');
         const mensajes = document.getElementById('mensajes');
@@ -292,11 +321,10 @@
                 img.src = sticker.url;
                 img.className = 'sticker-btn';
                 img.addEventListener('click', () => {
-                    if (enCooldown) return; // Bloquea si está en cooldown
+                    if (enCooldown) return;
                     socket.emit('chat sticker', { id: miID, nombre: miNombre, foto: miFoto, url: sticker.url, replyTo: mensajeAResponder });
                     panelStickers.style.display = 'none';
-                    cancelarRespuesta();
-                    activarCooldown();
+                    cancelarRespuesta(); activarCooldown();
                 });
                 listaStickers.appendChild(img);
             });
@@ -314,23 +342,22 @@
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            if (enCooldown) return; // Si está en cooldown, no hace nada
+            if (enCooldown) return; 
 
             if (input.value.trim() && miNombre !== "") {
                 socket.emit('chat message', { id: miID, nombre: miNombre, foto: miFoto, texto: input.value, replyTo: mensajeAResponder });
                 input.value = '';
-                cancelarRespuesta();
-                activarCooldown(); // Inicia los 5 segundos
+                cancelarRespuesta(); activarCooldown(); 
                 input.focus();
             }
         });
 
-        function dibujarMensaje(datos) {
+        // 🔥 MODIFICADO: Agregamos un parámetro para saber si el mensaje es del historial antiguo o es NUEVO
+        function dibujarMensaje(datos, esHistorial = false) {
             const item = document.createElement('li');
             item.className = 'mensaje-contenedor';
             if (datos.idUsuario === miID) item.classList.add('mensaje-propio');
 
-            // Generamos la cajita de "cita" si el mensaje era una respuesta
             let htmlCita = "";
             if (datos.replyTo) {
                 let textoCitado = datos.replyTo.tipo === 'texto' ? datos.replyTo.texto : "🖼️ [Sticker]";
@@ -349,7 +376,6 @@
                 </div>
             `;
 
-            // 🔥 NUEVO: Botón para responder este mensaje
             const btnResponder = document.createElement('button');
             btnResponder.className = 'btn-responder';
             btnResponder.innerText = 'Responder ↩️';
@@ -358,15 +384,21 @@
 
             mensajes.appendChild(item);
             mensajes.scrollTop = mensajes.scrollHeight;
+
+            // 🔥 ¡Si el mensaje ES NUEVO (no es del historial pasado), suena el POP!
+            if (!esHistorial) {
+                reproducirSonidoNotificacion();
+            }
         }
 
         socket.on('historial', (historial) => {
             mensajes.innerHTML = ''; 
-            historial.forEach(msj => dibujarMensaje(msj));
+            // Pasamos "true" para que no suenen 100 mensajes de golpe al entrar a la página
+            historial.forEach(msj => dibujarMensaje(msj, true)); 
         });
 
-        socket.on('chat message', (datos) => dibujarMensaje(datos));
-        socket.on('chat sticker', (datos) => dibujarMensaje(datos));
+        socket.on('chat message', (datos) => dibujarMensaje(datos, false));
+        socket.on('chat sticker', (datos) => dibujarMensaje(datos, false));
 
     </script>
 </body>
