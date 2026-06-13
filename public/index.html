@@ -8,7 +8,6 @@
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(-45deg, #0f0c29, #302b63, #020024, #1b003a); background-size: 400% 400%; animation: gradientBG 15s ease infinite; color: white; height: 100dvh; overflow: hidden; display: flex; flex-direction: column; }
         
-        /* LOGIN */
         #pantalla-nombre { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(10px); }
         #caja-nombre { background: rgba(255, 255, 255, 0.05); padding: 2.5rem; border-radius: 20px; text-align: center; border: 2px solid rgba(255, 255, 255, 0.1); box-shadow: 0 0 30px rgba(0, 255, 204, 0.4); backdrop-filter: blur(15px); width: 80%; max-width: 400px; }
         .texto-neon { background: linear-gradient(to right, #00ffcc, #ff00ff); -webkit-background-clip: text; color: transparent; font-weight: 900; letter-spacing: 1px; }
@@ -18,32 +17,27 @@
         .caja-avatar label { display: block; color: #ff00ff; font-weight: bold; margin-bottom: 8px; font-size: 0.9rem; }
         #input-foto-perfil { color: #aaa; width: 100%; font-size: 0.8rem; }
         #caja-nombre button { padding: 1rem 1.5rem; font-size: 1.2rem; background: linear-gradient(45deg, #ff00ff, #00ffcc); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 900; width: 100%; text-transform: uppercase; transition: 0.3s; }
-        #caja-nombre button:hover { transform: scale(1.05); }
-
-        /* HEADER DEL CHAT */
+        
         #chat-header { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); color: white; padding: 15px 20px; border-bottom: 2px solid rgba(255,255,255,0.1); z-index: 10; display: flex; justify-content: space-between; align-items: center; }
-        .caja-botones-header { display: flex; gap: 10px; }
+        .caja-botones-header { display: flex; gap: 8px; flex-wrap: wrap; }
         
-        /* 🔥 NUEVO: Botón de sonido adaptado */
-        #btn-sonido { background: rgba(255,255,255,0.1); border: 1px solid #ff00ff; color: white; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; transition: 0.2s; }
-        #btn-sonido:hover { background: #ff00ff; }
+        #btn-sonido { background: rgba(255,255,255,0.1); border: 1px solid #ff00ff; color: white; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; }
+        #btn-cambiar-perfil, #btn-ver-usuarios { background: rgba(255,255,255,0.1); border: 1px solid #00ffcc; color: #00ffcc; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; }
         
-        #btn-cambiar-perfil, #btn-ver-usuarios { background: rgba(255,255,255,0.1); border: 1px solid #00ffcc; color: #00ffcc; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; display: flex; align-items: center; gap: 5px; }
-        #btn-cambiar-perfil:hover, #btn-ver-usuarios:hover { background: #00ffcc; color: black; }
+        /* 🔥 BOTON DE JUEGO */
+        #btn-jugar { background: linear-gradient(45deg, #ff416c, #ff4b2b); border: none; color: white; padding: 5px 10px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 0 10px rgba(255, 65, 108, 0.5); animation: latido 1.5s infinite; }
+        @keyframes latido { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* PANEL DE USUARIOS */
         #panel-usuarios { display: none; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); border-bottom: 1px solid #00ff00; padding: 15px; flex-direction: column; z-index: 9; box-shadow: 0 10px 20px rgba(0,255,0,0.1); max-height: 150px; overflow-y: auto; }
         #lista-usuarios-online { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
         .usuario-online-card { background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(0,255,0,0.3); font-size: 0.85rem; font-weight: bold; color: #fff; }
         .usuario-online-card img { width: 25px; height: 25px; border-radius: 50%; object-fit: cover; }
 
-        /* BURBUJAS DE CHAT */
         #mensajes { list-style-type: none; margin: 0; padding: 1.5rem; flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
         .mensaje-contenedor { display: flex; align-items: flex-end; gap: 10px; max-width: 100%; }
         .avatar-chat { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #00ffcc; flex-shrink: 0; background-color: #222; }
         .cuerpo-mensaje { display: flex; flex-direction: column; align-items: flex-start; max-width: 75%; }
         .nombre-usuario { font-size: 0.8rem; color: #00ffcc; margin-bottom: 4px; font-weight: 900; text-transform: uppercase; }
-        
         .mensaje-burbuja { padding: 1rem 1.2rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; border-bottom-left-radius: 0px; word-wrap: break-word; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3); color: #eaeaea; }
         .sticker-en-chat { max-width: 180px; max-height: 180px; border-radius: 12px; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); margin-top: 5px; }
         
@@ -53,32 +47,34 @@
         .mensaje-propio .avatar-chat { border-color: #ff00ff; }
         .mensaje-propio .mensaje-burbuja { background: linear-gradient(135deg, #6a11cb, #2575fc); border: none; border-bottom-right-radius: 0px; color: white; }
 
-        /* CAJA DE RESPUESTAS */
-        .btn-responder { background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 0.75rem; margin-top: 5px; font-weight: bold; text-transform: uppercase; transition: 0.2s; }
-        .btn-responder:hover { color: #00ffcc; }
+        .btn-responder { background: transparent; border: none; color: #aaa; cursor: pointer; font-size: 0.75rem; margin-top: 5px; font-weight: bold; text-transform: uppercase; }
         .burbuja-citada { background: rgba(0,0,0,0.3); border-left: 3px solid #00ffcc; padding: 5px 10px; border-radius: 5px; margin-bottom: 8px; font-size: 0.85rem; color: #ccc; }
         .mensaje-propio .burbuja-citada { background: rgba(255,255,255,0.2); border-left: 3px solid #ff00ff; color: white; }
         #caja-respuesta-ui { display: none; background: rgba(0,0,0,0.8); border-top: 1px solid #ff00ff; padding: 10px 15px; justify-content: space-between; align-items: center; font-size: 0.9rem; }
         #caja-respuesta-ui button { background: rgba(255,0,0,0.2); color: #ff4444; border: 1px solid #ff4444; border-radius: 5px; padding: 2px 8px; cursor: pointer; font-weight: bold; }
         
-        /* RESTO DE CONTROLES */
         #panel-stickers { display: none; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); border-top: 1px solid #ff00ff; padding: 15px; flex-direction: column; gap: 10px; z-index: 20; }
         #lista-stickers { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; min-height: 80px; }
-        .sticker-btn { width: 80px; height: 80px; cursor: pointer; border-radius: 10px; transition: 0.2s; object-fit: contain; background: rgba(255,255,255,0.05); padding: 5px; }
-        .sticker-btn:hover { transform: scale(1.1); background: rgba(0,255,204,0.2); }
+        .sticker-btn { width: 80px; height: 80px; cursor: pointer; border-radius: 10px; object-fit: contain; background: rgba(255,255,255,0.05); padding: 5px; }
         #creador-stickers { display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
         #input-archivo-sticker { color: #00ffcc; flex-grow: 1; font-size: 0.9rem; }
         #btn-crear-sticker { background: linear-gradient(45deg, #00c6ff, #0072ff); border-radius: 8px; padding: 0.6rem; border: none; font-weight: bold; color: white; cursor: pointer; }
         
         #formulario { display: flex; padding: 1rem 1.5rem; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); align-items: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.1); }
-        #input-mensaje { flex-grow: 1; padding: 1rem 1.5rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; outline: none; background: rgba(255,255,255,0.05); color: white; font-size: 1.1rem; transition: 0.3s; }
-        #input-mensaje:focus { border-color: #ff00ff; }
-        #btn-enviar { padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #ff00ff, #00ffcc); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: 900; transition: 0.2s; }
+        #input-mensaje { flex-grow: 1; padding: 1rem 1.5rem; border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; outline: none; background: rgba(255,255,255,0.05); color: white; font-size: 1.1rem; }
+        #btn-enviar { padding: 0.8rem 1.5rem; background: linear-gradient(45deg, #ff00ff, #00ffcc); color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: 900; }
         #btn-abrir-stickers { background: transparent; font-size: 2.2rem; padding: 0; border: none; cursor: pointer; }
         
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         ::-webkit-scrollbar-thumb { background: #ff00ff; border-radius: 10px; }
+
+        /* 🔥 MODAL DEL FLAPPY BIRD */
+        #flappy-modal { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 500; flex-direction: column; align-items: center; justify-content: center; }
+        canvas { border: 3px solid #00ffcc; border-radius: 10px; background: url('https://i.imgur.com/4vYk9F1.png') center/cover; box-shadow: 0 0 30px rgba(0, 255, 204, 0.3); max-width: 100vw; }
+        #flappy-ui { position: absolute; text-align: center; pointer-events: none; }
+        #flappy-msg { font-size: 2rem; font-weight: 900; color: #ff00ff; text-shadow: 2px 2px 0 #000; }
+        .btn-flappy-close { margin-top: 15px; background: red; color: white; border: none; padding: 10px 20px; font-size: 1.2rem; font-weight: bold; border-radius: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -96,11 +92,24 @@
         </div>
     </div>
 
+    <div id="flappy-modal">
+        <h2 class="texto-neon" style="margin-bottom: 5px;">🦅 FLAPPY SIGMAS</h2>
+        <p style="color: #ccc; font-size: 0.9rem; margin-top: 0;">Presiona ESPACIO o toca la pantalla para volar</p>
+        
+        <div style="position: relative;">
+            <canvas id="flappy-canvas" width="350" height="500"></canvas>
+            <div id="flappy-ui" style="top: 40%; width: 100%;"><div id="flappy-msg">TOCA PARA EMPEZAR</div></div>
+        </div>
+
+        <button class="btn-flappy-close" onclick="cerrarFlappy()">Cerrar Juego ❌</button>
+    </div>
+
     <div id="chat-area" style="display: flex; flex-direction: column; height: 100%;">
         <div id="chat-header">
-            <div><div class="texto-neon" style="font-size: 1.3rem;">🔥 2AHC TIER SSS 🔥</div></div>
+            <div class="texto-neon" style="font-size: 1.3rem;">🔥 2AHC TIER SSS 🔥</div>
             <div class="caja-botones-header">
-                <button id="btn-sonido" title="Silenciar Notificaciones">🔊</button>
+                <button id="btn-jugar" title="Flappy Bird Multijugador">🎮 JUGAR</button>
+                <button id="btn-sonido" title="Sonido">🔊</button>
                 <button id="btn-ver-usuarios">🟢 <span id="contador-usuarios">0</span></button>
                 <button id="btn-cambiar-perfil">Skin ✏️</button>
             </div>
@@ -139,56 +148,36 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        
         let miID = localStorage.getItem('chat2ahc_id');
         if (!miID) { miID = 'sigma_' + Math.random().toString(36).substr(2, 9); localStorage.setItem('chat2ahc_id', miID); }
-
         let miNombre = localStorage.getItem('chat2ahc_nombre') || "";
         let miFoto = localStorage.getItem('chat2ahc_foto') || "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-        let yaEntramos = false;
+        
+        let miImagenPajaro = new Image(); // Cargamos la foto en memoria para el juego
+        miImagenPajaro.src = miFoto;
 
+        let yaEntramos = false;
         const pantallaNombre = document.getElementById('pantalla-nombre');
         const inputNombre = document.getElementById('input-nombre');
         const inputFotoPerfil = document.getElementById('input-foto-perfil');
         const btnEntrar = document.getElementById('btn-entrar');
         const btnCambiarPerfil = document.getElementById('btn-cambiar-perfil');
 
-        // ====================================================
-        // 🔥 SISTEMA DE AUDIO SINTÉTICO (Sin descargar nada)
-        // ====================================================
+        // AUDIO
         let sonidoActivado = true;
         const btnSonido = document.getElementById('btn-sonido');
-        
-        btnSonido.addEventListener('click', () => {
-            sonidoActivado = !sonidoActivado;
-            btnSonido.innerText = sonidoActivado ? '🔊' : '🔇';
-        });
+        btnSonido.addEventListener('click', () => { sonidoActivado = !sonidoActivado; btnSonido.innerText = sonidoActivado ? '🔊' : '🔇'; });
 
-        // Esta función crea un sonido "Pop" de burbuja matemáticamente
         function reproducirSonidoNotificacion() {
             if (!sonidoActivado) return;
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
-                const ctx = new AudioContext();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                
-                // Configuramos la onda para que suene como una burbuja/pop
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.1);
-                
-                gain.gain.setValueAtTime(0.5, ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-                
-                osc.start(ctx.currentTime);
-                osc.stop(ctx.currentTime + 0.1);
-            } catch(error) {
-                console.log("Tu navegador bloqueó el audio sintético.");
-            }
+                const ctx = new AudioContext(); const osc = ctx.createOscillator(); const gain = ctx.createGain();
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.type = 'sine'; osc.frequency.setValueAtTime(800, ctx.currentTime); osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.5, ctx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+                osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.1);
+            } catch(error) {}
         }
 
         function comprimirImagen(archivo, callback) {
@@ -196,15 +185,12 @@
             lector.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_SIZE = 150; 
+                    const canvas = document.createElement('canvas'); const MAX_SIZE = 100; // Fotos de 100px bastan
                     let width = img.width; let height = img.height;
                     if (width > height) { if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; } } 
                     else { if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; } }
-                    canvas.width = width; canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    callback(canvas.toDataURL('image/jpeg', 0.8));
+                    canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height); callback(canvas.toDataURL('image/jpeg', 0.8));
                 }
                 img.src = e.target.result;
             }
@@ -217,8 +203,7 @@
             else { socket.emit('actualizar perfil', datosPerfil); }
         }
 
-        if (miNombre !== "") { pantallaNombre.style.display = 'none'; notificarAlServidor(); } 
-        else { inputNombre.value = miNombre; }
+        if (miNombre !== "") { pantallaNombre.style.display = 'none'; notificarAlServidor(); } else { inputNombre.value = miNombre; }
 
         btnEntrar.addEventListener('click', () => {
             const nombreIngresado = inputNombre.value.trim();
@@ -229,57 +214,192 @@
             if (archivoFoto) {
                 comprimirImagen(archivoFoto, (fotoLiviana) => {
                     miFoto = fotoLiviana; localStorage.setItem('chat2ahc_foto', miFoto);
+                    miImagenPajaro.src = miFoto; // Actualizar pajaro
                     pantallaNombre.style.display = 'none'; notificarAlServidor();
                 });
             } else { pantallaNombre.style.display = 'none'; notificarAlServidor(); }
-            
-            // Truco: Al hacer clic, desbloqueamos el audio del navegador
             reproducirSonidoNotificacion(); 
         });
 
-        btnCambiarPerfil.addEventListener('click', () => {
-            inputNombre.value = miNombre; pantallaNombre.style.display = 'flex';
-        });
+        btnCambiarPerfil.addEventListener('click', () => { inputNombre.value = miNombre; pantallaNombre.style.display = 'flex'; });
 
+        // RADAR DE USUARIOS
         const btnVerUsuarios = document.getElementById('btn-ver-usuarios');
         const panelUsuarios = document.getElementById('panel-usuarios');
         const listaUsuariosOnline = document.getElementById('lista-usuarios-online');
         const contadorUsuarios = document.getElementById('contador-usuarios');
-
-        btnVerUsuarios.addEventListener('click', () => {
-            panelUsuarios.style.display = (panelUsuarios.style.display === 'flex') ? 'none' : 'flex';
-        });
+        btnVerUsuarios.addEventListener('click', () => { panelUsuarios.style.display = (panelUsuarios.style.display === 'flex') ? 'none' : 'flex'; });
 
         socket.on('actualizar usuarios', (usuarios) => {
-            contadorUsuarios.innerText = usuarios.length;
-            listaUsuariosOnline.innerHTML = '';
+            contadorUsuarios.innerText = usuarios.length; listaUsuariosOnline.innerHTML = '';
             usuarios.forEach(perfil => {
-                const li = document.createElement('li');
-                li.className = 'usuario-online-card';
+                const li = document.createElement('li'); li.className = 'usuario-online-card';
                 li.innerHTML = `<img src="${perfil.foto}"> <span>${perfil.nombre}</span>`;
                 listaUsuariosOnline.appendChild(li);
             });
         });
 
+        // ====================================================
+        // 🔥 LÓGICA DEL FLAPPY BIRD MULTIJUGADOR (GHOST MODE)
+        // ====================================================
+        const modalFlappy = document.getElementById('flappy-modal');
+        const btnJugar = document.getElementById('btn-jugar');
+        const canvas = document.getElementById('flappy-canvas');
+        const ctx = canvas.getContext('2d');
+        const flappyMsg = document.getElementById('flappy-msg');
+
+        let juegoActivo = false;
+        let pajarosFantasmas = {}; // { id: { y, score, muerto, imgObj, lastUpdate } }
+        let loopInterval;
+        let transimisionInterval;
+
+        // Variables de mi partida local
+        let pX = 50, pY = 200, pVy = 0, gravedad = 0.6, salto = -8;
+        let tubos = [];
+        let score = 0;
+        let frames = 0;
+        let estadoJuego = "INICIO"; // INICIO, JUGANDO, MUERTO
+
+        btnJugar.addEventListener('click', () => {
+            modalFlappy.style.display = 'flex';
+            reiniciarFlappy();
+            loopInterval = requestAnimationFrame(bucleFlappy);
+            
+            // Avisar a los demás mi posición 15 veces por segundo
+            transimisionInterval = setInterval(() => {
+                socket.emit('flappy pos', { id: miID, nombre: miNombre, foto: miFoto, y: pY, score: score, muerto: (estadoJuego==="MUERTO") });
+            }, 100);
+        });
+
+        function cerrarFlappy() {
+            modalFlappy.style.display = 'none';
+            cancelAnimationFrame(loopInterval);
+            clearInterval(transimisionInterval);
+        }
+
+        // Si tocamos el canvas o presionamos barra espaciadora
+        function saltar() {
+            if (estadoJuego === "INICIO") { estadoJuego = "JUGANDO"; flappyMsg.innerText = ""; }
+            if (estadoJuego === "JUGANDO") { pVy = salto; }
+            if (estadoJuego === "MUERTO") { reiniciarFlappy(); estadoJuego = "JUGANDO"; flappyMsg.innerText = ""; }
+        }
+        canvas.addEventListener('mousedown', saltar);
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); saltar(); });
+        
+        window.addEventListener('keydown', (e) => {
+            if(modalFlappy.style.display === 'flex' && e.code === "Space") { e.preventDefault(); saltar(); }
+        });
+
+        function reiniciarFlappy() {
+            pY = 200; pVy = 0; score = 0; tubos = []; frames = 0;
+            tubos.push({ x: canvas.width, y: Math.floor(Math.random() * 200) + 100 });
+        }
+
+        // Recibir los datos de los demás jugadores
+        socket.on('flappy pos', (datos) => {
+            if (!pajarosFantasmas[datos.id]) {
+                let img = new Image(); img.src = datos.foto;
+                pajarosFantasmas[datos.id] = { imgObj: img };
+            }
+            pajarosFantasmas[datos.id].y = datos.y;
+            pajarosFantasmas[datos.id].nombre = datos.nombre;
+            pajarosFantasmas[datos.id].score = datos.score;
+            pajarosFantasmas[datos.id].muerto = datos.muerto;
+            pajarosFantasmas[datos.id].lastUpdate = Date.now();
+        });
+
+        function bucleFlappy() {
+            if (modalFlappy.style.display === 'none') return; // Apagar si se cierra
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar fondo
+
+            // Lógica Local
+            if (estadoJuego === "JUGANDO") {
+                pVy += gravedad;
+                pY += pVy;
+                frames++;
+
+                // Crear tubos
+                if (frames % 90 === 0) {
+                    tubos.push({ x: canvas.width, y: Math.floor(Math.random() * 200) + 100 });
+                }
+
+                // Mover tubos y detectar colisión
+                for (let i = 0; i < tubos.length; i++) {
+                    let t = tubos[i];
+                    t.x -= 3;
+
+                    // Dibujar tubos (Verdes Neón)
+                    ctx.fillStyle = "#00ffcc";
+                    ctx.fillRect(t.x, 0, 50, t.y - 60); // Tubo superior
+                    ctx.fillRect(t.x, t.y + 60, 50, canvas.height - (t.y + 60)); // Tubo inferior
+
+                    // Colisión
+                    if (pX + 30 > t.x && pX < t.x + 50 && (pY < t.y - 60 || pY + 30 > t.y + 60)) {
+                        estadoJuego = "MUERTO"; flappyMsg.innerText = "¡F POR TI! Toca para reiniciar";
+                    }
+                    if (pY > canvas.height || pY < 0) { estadoJuego = "MUERTO"; flappyMsg.innerText = "¡F POR TI! Toca para reiniciar"; }
+
+                    // Punto
+                    if (t.x === pX) score++;
+                }
+                tubos = tubos.filter(t => t.x > -50);
+            } else if (estadoJuego === "MUERTO") {
+                // Dibujar tubos congelados
+                ctx.fillStyle = "red";
+                for (let i = 0; i < tubos.length; i++) {
+                    ctx.fillRect(tubos[i].x, 0, 50, tubos[i].y - 60);
+                    ctx.fillRect(tubos[i].x, tubos[i].y + 60, 50, canvas.height - (tubos[i].y + 60));
+                }
+                pY += 5; // Cae al morir
+            }
+
+            // 🔥 DIBUJAR A LOS DEMÁS (FANTASMAS)
+            let maxScore = score;
+            let leader = miNombre;
+            const ahora = Date.now();
+
+            for (let id in pajarosFantasmas) {
+                let f = pajarosFantasmas[id];
+                if (ahora - f.lastUpdate > 2000) { delete pajarosFantasmas[id]; continue; } // Si se desconectó, bórralo
+                
+                if (f.score > maxScore) { maxScore = f.score; leader = f.nombre; } // Leaderboard
+
+                if (!f.muerto) {
+                    ctx.globalAlpha = 0.4; // Hacerlos semitransparentes
+                    ctx.drawImage(f.imgObj, pX, f.y, 30, 30);
+                    ctx.fillStyle = "white"; ctx.font = "10px Arial";
+                    ctx.fillText(f.nombre, pX - 5, f.y - 5);
+                    ctx.globalAlpha = 1.0;
+                }
+            }
+
+            // DIBUJAR MI PÁJARO (Mi foto de perfil)
+            ctx.drawImage(miImagenPajaro, pX, pY, 30, 30);
+
+            // DIBUJAR PUNTOS Y LÍDER
+            ctx.fillStyle = "white";
+            ctx.font = "20px Tahoma";
+            ctx.fillText("Score: " + score, 10, 30);
+            ctx.font = "14px Tahoma";
+            ctx.fillStyle = "#ff00ff";
+            ctx.fillText("👑 Líder: " + leader + " (" + maxScore + ")", 10, 50);
+
+            requestAnimationFrame(bucleFlappy);
+        }
+
+        // ====================================================
+        // RESTO DEL CHAT NORMAL
+        // ====================================================
         let enCooldown = false;
         const btnEnviar = document.getElementById('btn-enviar');
-
         function activarCooldown() {
-            enCooldown = true;
-            let segs = 5;
-            const textoOriginal = btnEnviar.innerHTML;
-            btnEnviar.style.background = "rgba(255,255,255,0.2)";
-            btnEnviar.style.boxShadow = "none";
-            btnEnviar.style.cursor = "not-allowed";
-            btnEnviar.innerHTML = `⏳ ${segs}s`;
+            enCooldown = true; let segs = 5; const textoOriginal = btnEnviar.innerHTML;
+            btnEnviar.style.background = "rgba(255,255,255,0.2)"; btnEnviar.style.cursor = "not-allowed"; btnEnviar.innerHTML = `⏳ ${segs}s`;
             const intervalo = setInterval(() => {
                 segs--;
                 if(segs > 0) { btnEnviar.innerHTML = `⏳ ${segs}s`; } 
-                else {
-                    clearInterval(intervalo); enCooldown = false;
-                    btnEnviar.style.background = ""; btnEnviar.style.boxShadow = "";
-                    btnEnviar.style.cursor = "pointer"; btnEnviar.innerHTML = textoOriginal;
-                }
+                else { clearInterval(intervalo); enCooldown = false; btnEnviar.style.background = ""; btnEnviar.style.cursor = "pointer"; btnEnviar.innerHTML = textoOriginal; }
             }, 1000);
         }
 
@@ -289,17 +409,11 @@
         const respuestaUiTexto = document.getElementById('respuesta-ui-texto');
 
         function prepararRespuesta(datos) {
-            mensajeAResponder = datos;
-            cajaRespuestaUI.style.display = 'flex';
-            respuestaUiNombre.innerText = datos.nombre;
-            respuestaUiTexto.innerText = datos.tipo === 'texto' ? datos.texto : "🖼️ [Envió un Sticker]";
+            mensajeAResponder = datos; cajaRespuestaUI.style.display = 'flex';
+            respuestaUiNombre.innerText = datos.nombre; respuestaUiTexto.innerText = datos.tipo === 'texto' ? datos.texto : "🖼️ [Sticker]";
             document.getElementById('input-mensaje').focus();
         }
-
-        function cancelarRespuesta() {
-            mensajeAResponder = null;
-            cajaRespuestaUI.style.display = 'none';
-        }
+        function cancelarRespuesta() { mensajeAResponder = null; cajaRespuestaUI.style.display = 'none'; }
 
         const form = document.getElementById('formulario');
         const input = document.getElementById('input-mensaje');
@@ -310,21 +424,16 @@
         const inputArchivoSticker = document.getElementById('input-archivo-sticker');
         const btnCrearSticker = document.getElementById('btn-crear-sticker');
 
-        btnAbrirStickers.addEventListener('click', () => {
-            panelStickers.style.display = (panelStickers.style.display === 'flex') ? 'none' : 'flex';
-        });
+        btnAbrirStickers.addEventListener('click', () => { panelStickers.style.display = (panelStickers.style.display === 'flex') ? 'none' : 'flex'; });
 
         socket.on('actualizar stickers', (coleccion) => {
             listaStickers.innerHTML = '';
             coleccion.forEach(sticker => {
-                const img = document.createElement('img');
-                img.src = sticker.url;
-                img.className = 'sticker-btn';
+                const img = document.createElement('img'); img.src = sticker.url; img.className = 'sticker-btn';
                 img.addEventListener('click', () => {
                     if (enCooldown) return;
                     socket.emit('chat sticker', { id: miID, nombre: miNombre, foto: miFoto, url: sticker.url, replyTo: mensajeAResponder });
-                    panelStickers.style.display = 'none';
-                    cancelarRespuesta(); activarCooldown();
+                    panelStickers.style.display = 'none'; cancelarRespuesta(); activarCooldown();
                 });
                 listaStickers.appendChild(img);
             });
@@ -332,30 +441,19 @@
 
         btnCrearSticker.addEventListener('click', () => {
             const archivo = inputArchivoSticker.files[0];
-            if (archivo) {
-                comprimirImagen(archivo, (fotoLiviana) => {
-                    socket.emit('nuevo sticker', fotoLiviana);
-                    inputArchivoSticker.value = ''; 
-                });
-            }
+            if (archivo) { comprimirImagen(archivo, (fotoLiviana) => { socket.emit('nuevo sticker', fotoLiviana); inputArchivoSticker.value = ''; }); }
         });
 
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (enCooldown) return; 
-
+            e.preventDefault(); if (enCooldown) return; 
             if (input.value.trim() && miNombre !== "") {
                 socket.emit('chat message', { id: miID, nombre: miNombre, foto: miFoto, texto: input.value, replyTo: mensajeAResponder });
-                input.value = '';
-                cancelarRespuesta(); activarCooldown(); 
-                input.focus();
+                input.value = ''; cancelarRespuesta(); activarCooldown(); input.focus();
             }
         });
 
-        // 🔥 MODIFICADO: Agregamos un parámetro para saber si el mensaje es del historial antiguo o es NUEVO
         function dibujarMensaje(datos, esHistorial = false) {
-            const item = document.createElement('li');
-            item.className = 'mensaje-contenedor';
+            const item = document.createElement('li'); item.className = 'mensaje-contenedor';
             if (datos.idUsuario === miID) item.classList.add('mensaje-propio');
 
             let htmlCita = "";
@@ -368,38 +466,17 @@
                 ? `<div class="mensaje-burbuja">${htmlCita}${datos.texto}</div>`
                 : `<div class="mensaje-burbuja" style="background:transparent; padding:0; box-shadow:none;">${htmlCita}<img src="${datos.url}" class="sticker-en-chat"></div>`;
 
-            item.innerHTML = `
-                <img src="${datos.foto}" class="avatar-chat">
-                <div class="cuerpo-mensaje">
-                    <span class="nombre-usuario">${datos.nombre}</span>
-                    ${contenido}
-                </div>
-            `;
-
-            const btnResponder = document.createElement('button');
-            btnResponder.className = 'btn-responder';
-            btnResponder.innerText = 'Responder ↩️';
-            btnResponder.onclick = () => prepararRespuesta(datos);
+            item.innerHTML = `<img src="${datos.foto}" class="avatar-chat"><div class="cuerpo-mensaje"><span class="nombre-usuario">${datos.nombre}</span>${contenido}</div>`;
+            const btnResponder = document.createElement('button'); btnResponder.className = 'btn-responder'; btnResponder.innerText = 'Responder ↩️'; btnResponder.onclick = () => prepararRespuesta(datos);
             item.querySelector('.cuerpo-mensaje').appendChild(btnResponder);
 
-            mensajes.appendChild(item);
-            mensajes.scrollTop = mensajes.scrollHeight;
-
-            // 🔥 ¡Si el mensaje ES NUEVO (no es del historial pasado), suena el POP!
-            if (!esHistorial) {
-                reproducirSonidoNotificacion();
-            }
+            mensajes.appendChild(item); mensajes.scrollTop = mensajes.scrollHeight;
+            if (!esHistorial) reproducirSonidoNotificacion();
         }
 
-        socket.on('historial', (historial) => {
-            mensajes.innerHTML = ''; 
-            // Pasamos "true" para que no suenen 100 mensajes de golpe al entrar a la página
-            historial.forEach(msj => dibujarMensaje(msj, true)); 
-        });
-
+        socket.on('historial', (historial) => { mensajes.innerHTML = ''; historial.forEach(msj => dibujarMensaje(msj, true)); });
         socket.on('chat message', (datos) => dibujarMensaje(datos, false));
         socket.on('chat sticker', (datos) => dibujarMensaje(datos, false));
-
     </script>
 </body>
 </html>
